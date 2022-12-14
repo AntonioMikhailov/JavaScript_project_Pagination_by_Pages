@@ -1,4 +1,6 @@
 # JavaScript_project_Pagination_by_Pages
+
+<style>g { color: Green }</style>
  <style>
 r { color: Red }
 o { color: Orange }
