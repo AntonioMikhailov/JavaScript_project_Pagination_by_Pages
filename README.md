@@ -1,13 +1,23 @@
 # JavaScript_project_Pagination_by_Pages
-<!-- H1 -->
-# Привет мир 
-## Привет Антон
- <!--H2  и так далее   -->
-## Приветуууу мир  
-## Приветуууу мир  
-<!-- Ссылка с текстом -->
-[I'm an inline-style link](https://www.google.com)
-<!-- // при наведении будет хинт Google's Homepage  -->
-[I'm an inline-style link with title](https://www.google.com "Google's Homepage") 
-<!--  Эта ниже - не рабоатет вроде -->
-[I'm a reference-style link][Arbitrary case-insensitive reference text]
+ <style>
+r { color: Red }
+o { color: Orange }
+g { color: Green }
+b { color: #184377}
+</style>
+<b>Привет</b>
+- <r>TODO:</r> Important thing to do
+- <o>TODO:</o> Less important thing to do
+- <g>DONE:</g> Breath deeply and improve karma
+<b> 
+1.	Используемые ресурсы и инструменты:
+2.	Порядок работы
+3.	Задача
+4.	 Необходимы расширения, библиотеки:
+5.	Установка, запуск, сборка
+
+</b>
+###Реализация функционала и логики
+ 
+###Используемые ресурсы и инструменты:
+ 
