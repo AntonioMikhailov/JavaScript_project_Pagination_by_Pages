@@ -1,0 +1,104 @@
+  * {
+    font-family: Arial;
+    box-sizing:border-box;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+  }
+  html, body {
+    height: 100%;
+  }
+  header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    background-color: rgb(143, 143, 143); 
+   color: rgb(255, 255, 255);
+     margin: 0px 0px 30px 0px;
+  }
+  .container {
+   max-width:1200px;
+   margin: 0 auto;
+   padding: 0px 20px 40px 20px;
+   }
+ .contentWrapper {
+    padding: 20px;
+    background-color: rgb(233, 233, 233);
+    font-size: 16px;
+    height: 100%;
+   }
+   .itemWrapper p {
+    font-size: 16px;
+   }
+   .listItem {
+   margin: 0px 0px 25px 0px;
+    padding: 10px;
+    background-color: rgb(184, 184, 184);
+   }
+   .itemEmail {
+    font-size: 16px;
+    color: rgb(142, 15, 15);
+    margin: 5px 0px 5px 0px;
+   }
+   .itemEmail p {
+  display: inline-block;
+    text-decoration: none;
+    margin: 0px 10px 25px 0px;
+    color: rgb(147, 147, 147);
+    font-size: 25px;
+   }
+   .buttonsWrapper {
+    padding: 20px 0px 0px 0px;
+    max-width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    gap: 10px;
+    }
+.buttonCountWrapper {
+  width: 300px;
+  overflow: hidden;
+}
+   .buttonCountRow {
+   width: 100%;
+   display: flex;
+    align-items: center;
+  } 
+  .buttonCountItem {
+   flex-basis: 20%;
+   flex-shrink: 0;
+   padding: 5px;
+  background-color: rgb(43, 192, 197);
+    text-align: center;
+    color: rgb(255, 255, 255);
+    border:  1px solid rgb(122, 122, 122);
+    cursor: pointer;
+    }
+    .buttonCountItem:hover {
+      background-color: rgb(127, 223, 240);
+    }
+    .activePageButton {
+      background-color: rgb(153, 31, 31);
+    } 
+    .prevButton, .nextButton  {
+      background-color: rgb(38, 122, 133);
+      padding: 5px 15px 5px 15px;
+      color: rgb(255, 255, 255);
+      cursor: pointer;
+      transition: all 0.3s ease .0s;
+}
+.prevButton:hover, .nextButton:hover {
+  background-color: rgb(53, 189, 207);
+} 
+ 
+.firstPageButton, .lastPageButton {
+    padding: 5px 15px 5px 15px;
+      color: rgb(30, 30, 30);
+      cursor: pointer;
+      transition: all 0.3s ease .0s;
+      background-color: rgb(199, 199, 199);
+}
+.firstPageButton:hover, .lastPageButton:hover {
+  background-color: rgb(233, 233, 233);
+}

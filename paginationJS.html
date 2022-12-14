@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Пагинация постраничная</title>
+  <link rel="stylesheet" href="pagination.css">
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <h3>Посты с JSON Placeholder</h3>
+    </header>
+    <div class="contentWrapper"></div>
+    <div class="buttonsWrapper">
+      <div class="firstPageButton">1</div>
+      <div class="prevButton">Prev</div>
+      <div class="buttonCountWrapper">
+        <div class="buttonCountRow" >
+          <!-- Здесь генерится весь контент - список -->
+        </div>
+      </div>
+      <div class="nextButton">Next</div>
+      <div class="lastPageButton">Last</div>
+    </div>
+  </main>
+  <script>
+// В консоли можно посмотреть изменение некоторых значений
+ // используем метод Fetch для получения данных с сервера.  
+ fetch('https://jsonplaceholder.typicode.com/comments')
+ .then((response) => response.json())  
+.then((data) => getFetchDataWrapper(data))  // вызываем ф. и передаем БД
+.catch(error => console.log(error));   
+    const contentWrapper = document.querySelector('.contentWrapper');
+    const buttonCountRow = document.querySelector('.buttonCountRow');
+    const prevBtn = document.querySelector('.prevButton');
+    const nextBtn = document.querySelector('.nextButton');
+    const firstPageButton = document.querySelector('.firstPageButton');
+    const lastPageButton = document.querySelector('.lastPageButton');
+    // getFetchData это обертка для всех дочерних функций -   играет роль DOMcontentLoaded - ждет вызова от Fetch -  а Fetch ждет загрузки от сервера 
+  function getFetchDataWrapper(data) { 
+  let listItems = data;  
+  let currentPage = 1;
+    let rowsPerPage =5; // сколько рядов показываем на одной странице
+    let pageCount = Math.ceil(listItems.length / rowsPerPage) // кол-во страниц 
+    lastPageButton.innerText = pageCount; // номер последней страницы
+    console.log(`pageCount ${pageCount} `);
+   // Функция генерации контента из массива данных
+  function displayList(page) {
+      contentWrapper.innerHTML = ''; // очищаем предыдущую страницу при каждом вызове 
+      page--; // отнимаем текущую страницу - станет 0 - см. ниже для чего
+      //получаем первые 5 элементов каждой страницы
+      let start = rowsPerPage * page; // 5 * 0 если currentPage 1 то page--; делает ее 0  чтобы показать контент именно с нулевого индекса
+      let end = start + rowsPerPage; // последний элемент на тек. странице
+      let paginatedItems = listItems.slice(start, end)  
+      // через MAP создаем разметку
+     paginatedItems.map(item => {
+      let itemWrapper = document.createElement('section');
+        itemWrapper.classList.add('itemWrapper')
+        contentWrapper.append(itemWrapper)
+     // Номер поста - через insertAdjacentHTML можно
+        itemWrapper.insertAdjacentHTML('afterbegin', `<p>post - ${item.id}</p>`)
+        // Email
+        let itemEmail = document.createElement('div');
+        itemEmail.classList.add('itemEmail')
+        itemEmail.textContent = item.email;  
+        itemWrapper.append(itemEmail) // вставляем в родителя
+        // Text
+        let itemText = document.createElement('div');
+        itemText.classList.add('listItem')
+        itemText.textContent = item.body;  
+        itemWrapper.append(itemText)
+       })  
+    }
+    displayList(currentPage)
+   // КНОПКИ
+    let buttonsRow = []; // будем пушить сюда 
+    // Генерируем кнопки -  длина массива кнопок будет равна кол-ву страниц - т.е. будет меняться в зависимости от страниц. Также  - кол-во одновременно видимых будет ограничено и меняться в переменной visibleButtonsAmount - ниже 
+    function createButtons() {
+      let buttonsAmount = pageCount;
+      // Создаем массив кнопок и пушим их наружу чтобы позже использовать в цикле
+      Array(pageCount).fill().map((_, i) => {
+        let button = document.createElement('div');
+        button.classList.add('buttonCountItem');
+        buttonCountRow.appendChild(button)
+        buttonsRow.push(button)
+        button.innerText = i + 1;
+      })
+      console.log(`buttonsAmount: ${buttonsAmount}`);
+      // Кнопки - Управление - переключаем + стили
+      // Можем сделать цикл из массива buttonsRow - т.к. пушили туда все кнопки
+      buttonsRow.forEach((item, i) => {
+       item.addEventListener('click', () => {
+          setActiveButtonClass(i)
+         // console.log(`currentPage: ${currentPage}`);
+         currentPage = i + 1;  // меняем текущую страницу
+        displayList(currentPage) // перезапускаем ф. отображения текущей страницы
+        });
+      });
+    }//
+    createButtons()
+    // ф. добавление активного класса
+    function setActiveButtonClass(index = 0) {  // по умолчанию первая кнопка активна
+      //scrollTo(0, 0) // скролим на самый верх. НЕ обязательно - убрал
+      buttonsRow.forEach(item => {
+        item.classList.remove('activePageButton');
+      });
+      buttonsRow[index].classList.add('activePageButton');
+    }
+    setActiveButtonClass()
+    // Раздел Адаптации кнопок под сжатие экрана - основная задача - сдвиг margin  у контейнера в котором находится массив кнопок при сжатии экрана - Поэтому в resize надо также следить за этим параметром
+    const buttonCountItem = document.querySelector('.buttonCountItem');
+  // получаем ширину видимой части кнопок
+  let ButtonContainerWidth = Number(getComputedStyle(buttonCountRow).width.replace(/\px/g, '')); // Math.floor - округление не надо делать т.к. накапливается погрешность и идет неточный сдвиг в конце длинного ряда  - Если toFixed- то  идет также неточный сдвиг последнего элемента
+    let buttonCountItemWidth = Number(getComputedStyle(buttonCountItem).width.replace(/\px/g, '')); // ширина одной кнопки -  сразу убираем px т.к. мешает в выражениях далее 
+    let endPosition;
+    let visibleButtonsAmount; // сколько кнопок будет видно одновременно
+    let maxOffset;
+    let index = 0
+   let currentOffset = 0;
+    // ф. адаптации контента под экран
+    function setResizeOffsetWidth() {
+     ButtonContainerWidth = Number(getComputedStyle(buttonCountRow).width.replace(/\px/g, ''));  
+      buttonCountItemWidth = Number(getComputedStyle(buttonCountItem).width.replace(/\px/g, ''));  
+      visibleButtonsAmount = Math.floor(ButtonContainerWidth / buttonCountItemWidth);  // менять кол-во видимых кнопок в CSS в  flex-basis: 20%; - 5, 33.3% - 3 шт
+      console.log(`visibleButtonsAmount: ${visibleButtonsAmount}`); // 5
+            currentOffset = buttonCountItemWidth * index;
+      buttonCountRow.style.marginLeft = currentOffset + 'px';
+      // Math.abs тоглит положит. число в негативное и наоборот, НО проще минус поставить и все))
+      maxOffset = -Math.abs(buttonCountItemWidth * (pageCount - visibleButtonsAmount)) // 
+      //console.log(`maxOffset: ${maxOffset}`); // -234 ( -1171 при 25 страницах)
+    }
+    setResizeOffsetWidth()
+    window.addEventListener('resize', () => {
+      setResizeOffsetWidth()
+    });
+  // NEXT
+    nextBtn.addEventListener('click', () => {
+      if (index == -(pageCount - visibleButtonsAmount)) { // любое кол-во страниц минус 5 видимых
+        index = index;
+      } else {
+        index--;
+        console.log(`index: ${index}`);
+        currentOffset = buttonCountItemWidth * index;
+        buttonCountRow.style.marginLeft = currentOffset + 'px';
+        setActiveButtonClass(currentPage)
+        currentPage++;
+        console.log(`currentPage: ${currentPage}`);
+        displayList(currentPage)
+      }
+    });
+  // PREV
+    prevBtn.addEventListener('click', () => {
+      if (index == 0) {
+        index = index;
+      } else {
+        index++;
+        console.log(`index: ${index}`);
+        currentOffset = buttonCountItemWidth * index;
+        buttonCountRow.style.marginLeft = currentOffset + 'px';
+        currentPage--;
+        console.log(`currentPage: ${currentPage}`);
+        setActiveButtonClass(currentPage - 1)
+        displayList(currentPage)
+      }
+    });
+    ////   First-Last buttons - можно вынести действия всех кнопок в отдельную ф. Но много разных аргументов передавать в параметры - не стоит того
+    firstPageButton.addEventListener('click', () => {
+      currentPage = 1;
+      currentOffset = 0;
+      index = 0;
+      buttonCountRow.style.marginLeft = currentOffset + 'px';
+      setActiveButtonClass(currentPage - 1)
+      displayList(currentPage)
+    });
+    lastPageButton.addEventListener('click', () => {
+      currentOffset = maxOffset;
+      index = -(pageCount - visibleButtonsAmount)
+      console.log(`index: ${index}`);
+      buttonCountRow.style.marginLeft = currentOffset + 'px';
+      currentPage = pageCount;
+      setActiveButtonClass(currentPage - 1)
+      displayList(currentPage)
+    });
+} //  
+  </script>
+</body>
+</html>
