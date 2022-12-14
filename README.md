@@ -1,4 +1,4 @@
- ### JavaScript_project_Pagination_by_Pages
+ ## JavaScript_project_Pagination_by_Pages
 ![alt text](https://github.com/AntonioMikhailov/AntonioMikhailov/blob/main/assets/example.png)
 ### Задача
 1.	получить с удаленного API данные в виде постов и разместить их на странице в определенном количестве
