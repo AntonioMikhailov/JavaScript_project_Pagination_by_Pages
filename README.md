@@ -3,7 +3,7 @@
 
 ![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png  )
 
-![alt text](https://github.com/AntonioMikhailov/AntonioMikhailov/blob/main/assets/example.png)
+![alt text](https://github.com/AntonioMikhailov/AntonioMikhailov/blob/main/assets/example.png )
 
 # Реализация функционала и логики H1
  ## Реализация функционала и логики H2
