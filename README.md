@@ -1,6 +1,7 @@
  ## JavaScript_project_Pagination_by_Pages
 ![alt text](https://github.com/AntonioMikhailov/AntonioMikhailov/blob/main/assets/example.png)
 ### Задача
+
 1.	получить с удаленного API данные в виде постов и разместить их на странице в определенном количестве
 2.	Создать внизу страницы кнопки переключения страниц по принципу вперед-назад
 3.	При смене страниц подгружать новые данные на текущую страницу
