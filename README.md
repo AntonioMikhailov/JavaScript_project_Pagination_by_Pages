@@ -1,4 +1,6 @@
 # JavaScript_project_Pagination_by_Pages
+&nbsp;
+&nbsp;
 
 ![alt text](https://github.com/AntonioMikhailov/AntonioMikhailov/blob/main/assets/example.png)
 ## Задача
