@@ -10,7 +10,7 @@
 &nbsp;
 ## Используемые языки, технологии, пакеты:
  - JavaScript, HTML, CSS
- - Fetch API, JSON Placeholder
+ - Fetch API, JSON Placeholder API
 
 &nbsp;
 ## Реализация функционала и логики
